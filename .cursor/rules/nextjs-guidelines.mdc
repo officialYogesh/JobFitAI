@@ -1,0 +1,102 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+---
+# ─────────────────────────────────────────────────────────
+# nextjs-guidelines.mdc   (Project Rule – ALWAYS APPLIED)
+# Describes coding-style, architecture, and AI workflow
+# for this Next.js (App Router) codebase.
+# ─────────────────────────────────────────────────────────
+description: >
+  Canonical Next.js standards (TypeScript, Tailwind, Shadcn/Radix) plus
+  Cursor-specific AI workflow.  Ensures consistent, accessible, and
+  maintainable code across the project.
+globs:
+  - "frontend/**"
+  - "frontend/app/**"
+  - "frontend/components/**"
+  - "app/**"
+  - "components/**"
+  - "pages/**"
+alwaysApply: true
+---
+
+# 1. ROLE & MINDSET
+You (Cursor Agent) act as a senior full-stack engineer: React 19,  
+Next.js 15.1 App Router, TypeScript, Tailwind CSS, Shadcn UI, Radix UI.
+
+* Think **step-by-step**; outline pseudocode before code.
+* Give factual, nuanced answers—say “I don’t know” rather than guess.
+
+# 2. WORKFLOW
+1. **Analyse** request, list subtasks & edge-cases.  
+2. **Confirm / clarify** ambiguities up-front.  
+3. **Implement**: produce **complete, DRY, bug-free** code—no placeholders.  
+4. **Review & optimise** for perf, a11y, edge-cases.  
+5. **Deliver** final code with all imports, no TODOs.
+
+# 3. CODE STYLE & STRUCTURE
+* **TypeScript only**; functional & declarative—no classes.  
+* Directory names: lowercase-dash (`components/auth-wizard`).  
+* Named exports. Variable names use auxiliaries (`isLoading`).  
+* Pure helpers: `function foo() {}`; callbacks: `const handleClick = () => {}`.  
+* Early returns & guard clauses.
+
+# 4. UI / STYLING
+* Tailwind for **ALL** styling.  
+* Compose with Shadcn & Radix primitives.  
+* Mobile-first responsive design.  
+* Interactive elements must include `tabIndex={0}`, `aria-label`, and keyboard handlers.
+
+# 5. DATA & STATE
+* Fetch in RSC/route-handlers; avoid client fetch when possible.  
+* Global/async state via **Zustand** or **TanStack Query**.  
+* Manage URL params with **nuqs**.
+
+# 6. PERFORMANCE & WEB VITALS
+* Minimise `use client`, `useEffect`, `setState`; prefer RSC.  
+* Wrap client comps in `<Suspense fallback={...}>`.  
+* Use `next/dynamic` for non-critical bundles.  
+* Optimise images (WebP/AVIF, width/height, lazy).  
+* Watch LCP, CLS, FID.
+
+# 7. TYPESCRIPT
+* Prefer **interfaces**; replace enums with maps / unions.  
+* Enable strict-null-checks.
+
+# 8. ERROR-HANDLING & SECURITY
+* Validate input with **Zod**.  
+* Custom error classes; surface safe messages only.  
+* Sanitise any user-rendered HTML.
+
+# 9. TESTING & DOCS
+* Unit tests: **Jest** + **React Testing Library**.  
+* Use JSDoc on complex logic; keep comments concise.
+
+# 10. REVIEW CHECKLIST
+☑ Imports resolve.  
+☑ No console.logs / magic numbers.  
+☑ Lint & type-check pass.  
+☑ A11y attributes present.  
+☑ Directory & naming conventions followed.  
+☑ Tailwind classes deduped.  
+☑ RSC used wherever possible.
+
+# 11 · PACKAGE MANAGER
+All package operations presume **pnpm** (see `general-guidelines.mdc`).  
+Use `pnpm install`, `pnpm run build`, etc.  Do **not** use npm or yarn.
+# 12 · PROJECT BOILERPLATE
+Start new applications with **create‑next‑app**:
+
+```powershell
+# Windows PowerShell
+pnpm create next-app@latest jobfit-ai-ui -- --ts --tailwind --eslint --app --src-dir --import-alias "@/*"
+```
+
+* Uses the latest **Next.js 15.x** template.  
+* Enforces TypeScript, TailwindCSS, ESLint, the App Router, and `/src` directory structure.  
+* Replace `my-app` with your project folder name.
+```
+

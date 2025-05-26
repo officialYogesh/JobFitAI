@@ -1,0 +1,56 @@
+---
+# ─────────────────────────────────────────────────────────
+# general-guidelines.mdc  (Project Rule – ALWAYS APPLIED)
+# Cross‑cutting principles that apply to ALL code changes
+# in this repository.
+# ─────────────────────────────────────────────────────────
+description: >
+  High‑level guardrails for Cursor’s AI agent: certainty threshold,
+  command‑execution policy, package‑manager preference, naming
+  conventions, and progress‑tracking workflow.
+alwaysApply: true
+---
+
+## 1 · CERTAINTY THRESHOLD
+Cursor must **only perform automated code changes when ≥ 95 % confident**
+the modification is correct and safe. If confidence is below that
+threshold, the agent must ask clarifying questions first.
+
+## 2 · COMMAND‑EXECUTION POLICY
+Cursor **MUST NOT** execute shell commands.
+
+1. Output the exact **PowerShell** command required.  
+2. Wait for the user to run it and paste back stdout/stderr.  
+3. Continue based on the returned output.
+
+This applies to all build, lint, test, migration, and git commands.
+
+## 3 · PACKAGE MANAGER
+Use **pnpm** (v8+) exclusively.
+
+* All CLI examples start with `pnpm …` (e.g., `pnpm install`).  
+* Lock‑file must be **`pnpm-lock.yaml`**.  
+* CI scripts and docs must reflect pnpm usage.
+
+## 4 · NAMING & STYLE CONVENTIONS
+* Boolean variables start with verbs: `isLoading`, `hasError`, `canSubmit`.  
+* Use complete words over abbreviations (except standard ones: API, URL, err, ctx, req, res).  
+* Avoid magic numbers — define **UPPER_SNAKE_CASE** constants.  
+* File & directory names: **kebab‑case**.  
+* One export per file; keep functions short and single‑purpose.
+
+## 5 · SESSION PROGRESS REPORT
+At the **end of each working session**, Cursor must create or update
+`progress_report.md` with:
+
+* **What was accomplished** in the session.  
+* **Next planned tasks / open questions**.
+
+This ensures a persistent breadcrumb trail for resuming work later.
+
+## 6 · REVIEW CHECKLIST
+☑ ≥ 95 % confidence confirmed.  
+☑ Commands provided, not executed.  
+☑ pnpm used exclusively.  
+☑ Naming conventions followed; no magic numbers.  
+☑ `progress_report.md` updated with accomplishments & next steps.

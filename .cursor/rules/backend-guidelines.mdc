@@ -1,0 +1,94 @@
+---
+# ─────────────────────────────────────────────────────────
+# backend-guidelines.mdc   (Project Rule – ALWAYS APPLIED)
+# Standards for Node / Next.js backend code with Firebase
+# and Supabase integrations.
+# ─────────────────────────────────────────────────────────
+description: >
+  Backend best-practices for a TypeScript‑first Node & Next.js
+  (App Router) stack that integrates Firebase Admin and Supabase.
+  Covers project structure, security, testing, and performance.
+globs:
+  - "backend/**"
+  - "backend/src/**"
+  - "backend/functions/**"
+  - "server/**"
+  - "src/**"
+  - "app/api/**"
+  - "functions/**"
+alwaysApply: true
+---
+
+# 1 · ROLE & MINDSET
+You are a senior backend engineer (Node 20+, TypeScript, Next.js 14 App Router, Firebase Admin SDK, Supabase).  
+Think **step‑by‑step**; reason first, code second. If unsure, say “I don’t know” instead of guessing.
+
+# 2 · WORKFLOW
+1. **Analyse** the request and enumerate edge‑cases.  
+2. **Confirm** ambiguities early.  
+3. **Implement** complete, DRY, bug‑free code — no TODOs or placeholders.  
+4. **Review** for performance, security, and correct HTTP semantics.  
+5. **Deliver** the final solution with all imports and env vars wired.
+
+# 3 · CODE STYLE & STRUCTURE
+* **TypeScript only** – `strictNullChecks` ON.  
+* Use **ES Modules** (`"type":"module"` in `package.json`).  
+* Prefer functional & declarative code; avoid classes unless DI wrappers.  
+* Organise by **capability** (`auth/`, `email/`, `db/`) not by technical layer.  
+* Named exports; one concept per file.  
+* Use **early returns** and guard clauses.
+
+```
+src/
+  auth/
+    firebase-admin.ts        # Firebase Admin singleton
+    supabase-server.ts       # Supabase SSR client
+    auth-handler.ts
+  utils/
+    logger.ts
+  routes/
+    users.post.ts            # Next.js Route Handler
+  types/
+    *.d.ts
+```
+
+# 4 · API DESIGN
+* Prefer **Route Handlers** (`app/api/**`) over `pages/api`.  
+* Accept/return **JSON**; validate with **Zod**; respond with typed error shapes.  
+* Use correct HTTP verbs; version via path (`/v1/`) not headers.
+
+# 5 · STATE & DATA
+* Use **Firebase Admin SDK** for privileged actions (Auth, Firestore, FCM).  
+* Use **Supabase JS** for Postgres/Realtime; SSR client attaches cookies.  
+* Encapsulate third‑party calls behind thin wrappers for testability.
+
+# 6 · ENV VARS & SECRETS
+* Store secrets in `.env.local`; never expose to browser.  
+* Load via `process.env`, validated by a Zod schema at bootstrap.  
+* Do not commit service‑account JSON; mount via Secret Manager/CI.
+
+# 7 · TESTING
+* **Jest** + **Supertest** for HTTP routes; **Vitest** acceptable.  
+* Use Firebase Emulator Suite and Supabase test DB/containers.  
+* CI runs `npm run lint && npm run test --coverage`.
+
+# 8 · PERFORMANCE & OBSERVABILITY
+* Use Edge runtime when possible.  
+* Lazy‑import heavy SDKs to reduce cold‑start.  
+* Log with **pino**; emit structured JSON logs.  
+* Track API TTFB via Next.js telemetry.
+
+# 9 · ERROR‑HANDLING & SECURITY
+* Wrap async handlers with an `errorBoundary` util; send sanitised messages.  
+* Enforce auth via middleware (`auth.ts`) early.  
+* Rate‑limit sensitive routes (e.g., login) with Redis/Upstash.  
+* Validate and sanitise all untrusted input.
+
+# 10 · REVIEW CHECKLIST
+☑ Imports resolve & paths correct.  
+☑ No `console.log` in production code — use logger.  
+☑ Lint & type‑check pass.  
+☑ Secrets not leaked.  
+☑ Endpoints covered by tests.  
+☑ Firebase/Supabase wrappers isolated & memoised.  
+☑ Route Handlers follow HTTP verbs and versioning.
