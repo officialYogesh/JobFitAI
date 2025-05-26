@@ -1,0 +1,36 @@
+# Node modules
+node_modules/
+**/node_modules/
+
+# Build outputs
+.next/
+dist/
+build/
+functions/lib/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Env files
+.env*
+.env.*
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+
+# Firebase
+.firebase/
+.firebaserc
+
+# Misc
+coverage/
+*.local 
