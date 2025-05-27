@@ -118,9 +118,10 @@ function HeroSection() {
           </h1>
 
           <p className="text-xl text-gray-600 mb-8 leading-relaxed">
-            Get instant, evidence-grounded feedback on how well your resume
-            matches any job description. Receive actionable insights, keyword
-            gap analysis, and tailored rewrite suggestions.
+            A portfolio project demonstrating AI-powered resume analysis.
+            Experience instant, evidence-grounded feedback on resume-job fit
+            with actionable insights, keyword gap analysis, and rewrite
+            suggestions.
           </p>
 
           <div className="flex justify-center">
@@ -400,17 +401,17 @@ function AboutSection() {
             </h2>
             <div className="space-y-6">
               <p className="text-lg text-gray-600 leading-relaxed">
-                JobFitAI is a privacy-first web tool designed to help job
-                seekers optimize their resumes for any job application. Built
-                with cutting-edge AI technology, we provide instant,
+                JobFitAI is a portfolio project demonstrating a privacy-first
+                web tool designed to help job seekers optimize their resumes.
+                Built with cutting-edge AI technology, it showcases instant,
                 evidence-grounded feedback powered by Retrieval-Augmented
                 Generation (RAG).
               </p>
               <p className="text-lg text-gray-600 leading-relaxed">
-                Our platform uses advanced language models to analyze the
-                compatibility between your resume and job descriptions,
-                identifying gaps and providing actionable insights to improve
-                your chances of landing interviews.
+                This project demonstrates the use of advanced language models to
+                analyze compatibility between resumes and job descriptions,
+                showcasing modern web development skills and AI integration
+                capabilities.
               </p>
               <div className="grid grid-cols-2 gap-6 mt-8">
                 <div className="bg-white p-4 rounded-lg shadow">
@@ -500,11 +501,11 @@ export default function Home() {
       <section className="py-20 bg-blue-500 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-            Ready to optimize your resume?
+            Ready to try the demo?
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            Join thousands of job seekers who&apos;ve improved their resume fit
-            scores by 20% or more.
+            A portfolio project showcasing AI-powered resume analysis
+            capabilities and modern web development skills.
           </p>
           <button
             onClick={handleGetStarted}
