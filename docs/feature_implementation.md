@@ -18,11 +18,11 @@
 
 ## Epic 1 – Project Scaffolding & CI/CD
 
-| #   | Task                                                                                             | Deliverable                     | Key Tests                                                  |
-| --- | ------------------------------------------------------------------------------------------------ | ------------------------------- | ---------------------------------------------------------- |
-| 1.1 | Create monorepo (`/frontend`, `/functions`) with PNPM workspaces                                 | GitHub repo w/ ESLint, Prettier | TC-E1: `pnpm install && pnpm test` passes zero-lint build  |
-| 1.2 | Configure **Vercel** for `/frontend` (Preview & Prod)                                            | Auto-deploy preview on PR       | TC-E2: Vercel deployment status check via GitHub Action    |
-| 1.3 | Configure **GitHub Action** to deploy CFs via `firebase deploy --only functions,firestore:rules` | Prod CF running                 | TC-E3: Workflow finishes < 5 min, non-zero exit on failure |
+| #   | Task                                                                              | Deliverable                        | Key Tests                                                     |
+| --- | --------------------------------------------------------------------------------- | ---------------------------------- | ------------------------------------------------------------- |
+| 1.1 | Create monorepo (`/frontend`, `/functions`) with PNPM workspaces                  | GitHub repo w/ ESLint, Prettier    | TC-E1: `pnpm install && pnpm test` passes zero-lint build     |
+| 1.2 | Configure **Vercel** for `/frontend` (Preview & Prod) with direct Git integration | Auto-deploy on push, preview on PR | TC-E2: Vercel deployment status visible on GitHub PRs         |
+| 1.3 | Configure **GitHub Action** for CI (lint & build verification only)               | Lint/build checks on PRs           | TC-E3: CI workflow finishes < 2 min, non-zero exit on failure |
 
 ---
 
