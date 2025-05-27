@@ -2,7 +2,7 @@
 
 > **Version:** 1.0.1 (May 27 2025)  
 > **Author:** Yogesh Patil  
-> **Stack:** Next.js 15 (Vercel) • Firebase Cloud Functions (Node 20, **us‑east1**) • Supabase pgvector • LangChain JS • OpenAI / Cohere • Google Analytics 4  
+> **Stack:** Next.js 15 (Vercel) • Firebase Cloud Functions (Node 20, **us‑east1**) • Supabase pgvector • LangChain JS • Google AI / OpenAI / Anthropic / Cohere • Google Analytics 4  
 > **Auth:** **Google sign‑in**  
 > **Deployment:** Vercel Direct Git Integration + GitHub Actions CI
 
@@ -38,12 +38,13 @@
 
 ## 2 Component Highlights
 
-- **Next.js Web** – guards routes with Google OAuth; BYOK modal stores API keys locally.
+- **Next.js Web** – guards routes with Google OAuth; enhanced navigation with logout functionality; BYOK modal stores API keys locally; shared Google AI by default with user key fallback.
+- **Authentication State Management** – conditional navigation showing Login/Sign Up for guests and Dashboard/Logout for authenticated users with proper state transitions.
 - **Vercel Deployment** – direct Git integration with automatic preview and production deployments.
 - **GitHub Actions CI** – lint and build verification only, no deployment handling.
 - **Parser CF** – PDF/DOCX → text, auth‑protected.
-- **Embed CF** – Embeds & upserts vectors (auth); dedup via SHA‑256 hash.
-- **Analyze CF** – LangChain builder chain; supports BYOK models.
+- **Embed CF** – Embeds & upserts vectors (auth); dedup via SHA‑256 hash; supports shared Google embedding and user BYOK.
+- **Analyze CF** – LangChain builder chain; supports shared Google models with user API key fallback and BYOK models.
 - **Data Stores** – Supabase pgvector for vectors, Firestore for metadata & variant logs.
 - **GA4** – funnels + A/B stats with `user_id`.
 
@@ -100,7 +101,8 @@ sessions/{sid}:
 
 ## 6 Error Handling
 
-| Failure               | User Message                                        |
-| --------------------- | --------------------------------------------------- |
-| Missing/expired token | "Please sign in."                                   |
-| OpenAI quota hit      | "Limit reached. Provide your own key or try later." |
+| Failure               | User Message                                                        |
+| --------------------- | ------------------------------------------------------------------- |
+| Missing/expired token | "Please sign in."                                                   |
+| Shared quota exceeded | "Shared limit reached. Please add your Google API key to continue." |
+| User API quota hit    | "Your API limit reached. Check your provider's usage dashboard."    |

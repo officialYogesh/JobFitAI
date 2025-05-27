@@ -41,10 +41,12 @@ JobFit AI is a **privacy-first web tool** that enables registered users to:
 
 ### 4.2 RAG‑Powered Analysis
 
-- Embed JD & resume chunks via `text‑embedding‑3‑small` (OpenAI).
+- Embed JD & resume chunks via Google embedding models (shared access) or `text‑embedding‑3‑small` (OpenAI BYOK).
 - Store vectors in Supabase `pgvector` (free tier) with metadata in Firestore.
 - Retrieval: semantic + keyword hybrid (LangChain `HypotheticalDocRetriever`).
-- **Bring‑Your‑Own‑Key (BYOK):** Users may supply an OpenAI key locally to unlock paid models.
+- **Default Shared Access:** Google Gemini 2.0 Flash with shared API access for immediate use.
+- **Enhanced Access:** Users can provide their own API keys for Google (personal limits), OpenAI, Anthropic, or Cohere models.
+- **Rate Limit Fallback:** When shared limits are reached, users can add their own Google API key for continued access.
 - Prompt chain executes **Role Prompt → Tailor Prompt → Diff Prompt → ATS Prompt → Gap Prompt**.
 
 ### 4.3 Authentication
@@ -65,8 +67,8 @@ JobFit AI is a **privacy-first web tool** that enables registered users to:
 
 ## 5 Non‑Functional Requirements
 
-- **Cost ceiling:** free‑tier services; BYOK users pay their own model costs.
-- **Latency:** p95 < 8 s on GPT‑3.5 Turbo.
+- **Cost ceiling:** shared Google AI by default; user API keys for enhanced access at their own cost.
+- **Latency:** p95 < 8 s on Gemini models (shared or personal access).
 - **Security:** No anonymous access; HTTPS; Firebase rules enforce per‑user data isolation.
 
 ---
@@ -82,7 +84,7 @@ Frontend **Vercel (Next.js)** → Firebase Auth (Google) → Cloud Functions (No
 1. Google sign‑in flow
 2. Upload & parsing
 3. Fit score + rewritten summary + diff table
-4. RAG grounding (OpenAI free)
+4. RAG grounding (shared Google AI + BYOK fallback)
 5. GA4 basic events
 
 ---

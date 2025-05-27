@@ -1,21 +1,49 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+
 function Header() {
+  const router = useRouter();
+  // TODO: Replace with actual auth state from Firebase Auth
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
   const handleLogin = () => {
     console.log("Login clicked");
     // TODO: Implement Google login
+    // For now, simulate login and redirect to upload page
+    setIsAuthenticated(true);
+    router.push("/upload");
   };
 
   const handleSignUp = () => {
     console.log("Sign up clicked");
     // TODO: Implement Google sign up
+    // For now, simulate signup and redirect to upload page
+    setIsAuthenticated(true);
+    router.push("/upload");
+  };
+
+  const handleLogout = () => {
+    console.log("Logout clicked");
+    // TODO: Implement Google logout
+    setIsAuthenticated(false);
+    // Optionally redirect to home or show logout confirmation
+  };
+
+  const handleDashboard = () => {
+    console.log("Dashboard clicked");
+    router.push("/upload");
   };
 
   return (
     <header className="w-full bg-blue-500 text-white relative z-10">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
-        <div className="flex items-center gap-3">
+        <div
+          className="flex items-center gap-3 cursor-pointer"
+          onClick={() => router.push("/")}
+        >
           <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
             <span className="text-blue-500 font-bold text-sm">JF</span>
           </div>
@@ -46,18 +74,37 @@ function Header() {
 
         {/* Auth buttons */}
         <div className="flex items-center gap-3">
-          <button
-            onClick={handleLogin}
-            className="text-white/90 hover:text-white font-medium px-4 py-2 transition-colors"
-          >
-            Log In
-          </button>
-          <button
-            onClick={handleSignUp}
-            className="bg-white text-blue-500 hover:bg-gray-50 font-medium px-6 py-2 rounded transition-colors"
-          >
-            Sign Up
-          </button>
+          {isAuthenticated ? (
+            <>
+              <button
+                onClick={handleDashboard}
+                className="text-white/90 hover:text-white font-medium px-4 py-2 transition-colors cursor-pointer"
+              >
+                Dashboard
+              </button>
+              <button
+                onClick={handleLogout}
+                className="bg-white/10 hover:bg-white/20 text-white font-medium px-6 py-2 rounded transition-colors cursor-pointer"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={handleLogin}
+                className="text-white/90 hover:text-white font-medium px-4 py-2 transition-colors cursor-pointer"
+              >
+                Log In
+              </button>
+              <button
+                onClick={handleSignUp}
+                className="bg-white text-blue-500 hover:bg-gray-50 font-medium px-6 py-2 rounded transition-colors cursor-pointer"
+              >
+                Sign Up
+              </button>
+            </>
+          )}
         </div>
       </div>
     </header>
@@ -97,9 +144,13 @@ function AnimatedBackground() {
 }
 
 function HeroSection() {
+  const router = useRouter();
+
   const handleGetStarted = () => {
     console.log("Get started clicked");
     // TODO: Implement Google sign up
+    // For now, redirect to upload page
+    router.push("/upload");
   };
 
   return (
@@ -121,13 +172,16 @@ function HeroSection() {
             A portfolio project demonstrating AI-powered resume analysis.
             Experience instant, evidence-grounded feedback on resume-job fit
             with actionable insights, keyword gap analysis, and rewrite
-            suggestions.
+            suggestions.{" "}
+            <span className="text-blue-600 font-medium">
+              Free Google AI access included.
+            </span>
           </p>
 
           <div className="flex justify-center">
             <button
               onClick={handleGetStarted}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg shadow-lg transition-colors"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg shadow-lg transition-colors cursor-pointer"
             >
               Get Started with Google
             </button>
@@ -144,8 +198,8 @@ function HeroSection() {
               <div className="text-sm text-gray-600">Privacy Protected</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900">RAG</div>
-              <div className="text-sm text-gray-600">AI Technology</div>
+              <div className="text-2xl font-bold text-gray-900">Free</div>
+              <div className="text-sm text-gray-600">Google AI Access</div>
             </div>
           </div>
         </div>
@@ -311,16 +365,16 @@ function FeaturesSection() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"
+                  d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1721 9z"
                 />
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-4">
-              Bring Your Own Key
+              Free Google AI + BYOK
             </h3>
             <p className="text-gray-600 leading-relaxed">
-              Use your own OpenAI API key to unlock premium models and features
-              while maintaining full control.
+              Start free with shared Google AI access or use your own API key
+              for OpenAI, Anthropic, Cohere, or personal Google access.
             </p>
           </div>
         </div>
@@ -416,18 +470,18 @@ function AboutSection() {
               <div className="grid grid-cols-2 gap-6 mt-8">
                 <div className="bg-white p-4 rounded-lg shadow">
                   <h4 className="font-semibold text-gray-900 mb-2">
-                    Privacy-First
+                    Free Access
                   </h4>
                   <p className="text-sm text-gray-600">
-                    Your data is secure with 30-day auto-deletion
+                    Shared Google AI with option for personal keys
                   </p>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow">
                   <h4 className="font-semibold text-gray-900 mb-2">
-                    AI-Powered
+                    Multiple Providers
                   </h4>
                   <p className="text-sm text-gray-600">
-                    RAG technology for accurate analysis
+                    Google, OpenAI, Anthropic, Cohere support
                   </p>
                 </div>
                 <div className="bg-white p-4 rounded-lg shadow">
@@ -443,7 +497,7 @@ function AboutSection() {
                     BYOK Support
                   </h4>
                   <p className="text-sm text-gray-600">
-                    Use your own OpenAI API key
+                    Bring your own API key for premium models
                   </p>
                 </div>
               </div>
@@ -484,9 +538,13 @@ function AboutSection() {
 }
 
 export default function Home() {
+  const router = useRouter();
+
   const handleGetStarted = () => {
     console.log("CTA Get started clicked");
     // TODO: Implement Google sign up
+    // For now, redirect to upload page
+    router.push("/upload");
   };
 
   return (
@@ -509,7 +567,7 @@ export default function Home() {
           </p>
           <button
             onClick={handleGetStarted}
-            className="bg-white text-blue-500 hover:bg-gray-50 font-semibold px-8 py-4 rounded-lg shadow-lg transition-colors"
+            className="bg-white text-blue-500 hover:bg-gray-50 font-semibold px-8 py-4 rounded-lg shadow-lg transition-colors cursor-pointer"
           >
             Get Started with Google Sign-In
           </button>

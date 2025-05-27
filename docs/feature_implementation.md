@@ -28,12 +28,12 @@
 
 ## Epic 2 – Authentication (Google-only)
 
-| #   | Task                                                          | File/Component     | Key Tests                                                                    |
-| --- | ------------------------------------------------------------- | ------------------ | ---------------------------------------------------------------------------- |
-| 2.1 | Enable Google provider in Firebase console (us-east1)         | Console config     | —                                                                            |
-| 2.2 | FE: Implement `useAuth()` hook (NextAuth or Firebase Web SDK) | `hooks/useAuth.ts` | TC-A1: Jest – unauth → `null`, after login → returns `uid`                   |
-| 2.3 | FE: Protect pages with `<AuthGuard>` HOC                      | `_app.tsx`         | TC-A2: Cypress – visiting `/dashboard` redirects to `/login` when not authed |
-| 2.4 | CF middleware to validate `context.auth.uid`                  | `lib/auth.ts`      | TC-A3: Firebase emulator – call CF without token → 401                       |
+| #   | Task                                                                                              | File/Component     | Key Tests                                                                    |
+| --- | ------------------------------------------------------------------------------------------------- | ------------------ | ---------------------------------------------------------------------------- |
+| 2.1 | Enable Google provider in Firebase console (us-east1)                                             | Console config     | —                                                                            |
+| 2.2 | FE: Implement `useAuth()` hook (NextAuth or Firebase Web SDK) with enhanced navigation and logout | `hooks/useAuth.ts` | TC-A1: Jest – unauth → `null`, after login → returns `uid`                   |
+| 2.3 | FE: Protect pages with `<AuthGuard>` HOC and conditional navigation (Login/Logout states)         | `_app.tsx`         | TC-A2: Cypress – visiting `/dashboard` redirects to `/login` when not authed |
+| 2.4 | CF middleware to validate `context.auth.uid`                                                      | `lib/auth.ts`      | TC-A3: Firebase emulator – call CF without token → 401                       |
 
 ---
 
@@ -50,21 +50,21 @@
 
 ## Epic 4 – Embedding & Vector Storage
 
-| #   | Task                                                                                    | File/Component               | Key Tests                                              |
-| --- | --------------------------------------------------------------------------------------- | ---------------------------- | ------------------------------------------------------ |
-| 4.1 | Supabase project w/ `match_vectors` table (`chunk_text`, `vector`) & pgvector extension | SQL migration                | TC-V1: psql – `\d match_vectors` shows `vector` column |
-| 4.2 | CF `embedAndStore` – check Firestore cache, if miss ➜ call OpenAI (or Cohere)           | `functions/embedAndStore.ts` | TC-V2: Jest mocks OpenAI – 3 chunks → 3 upserts        |
-| 4.3 | Set `ivfflat` index for cosine similarity                                               | SQL                          | TC-V3: query plan uses index (EXPLAIN)                 |
+| #   | Task                                                                                                      | File/Component               | Key Tests                                                |
+| --- | --------------------------------------------------------------------------------------------------------- | ---------------------------- | -------------------------------------------------------- |
+| 4.1 | Supabase project w/ `match_vectors` table (`chunk_text`, `vector`) & pgvector extension                   | SQL migration                | TC-V1: psql – `\d match_vectors` shows `vector` column   |
+| 4.2 | CF `embedAndStore` – check Firestore cache, if miss ➜ call shared Google AI with user key fallback (BYOK) | `functions/embedAndStore.ts` | TC-V2: Jest mocks shared/user API – 3 chunks → 3 upserts |
+| 4.3 | Set `ivfflat` index for cosine similarity                                                                 | SQL                          | TC-V3: query plan uses index (EXPLAIN)                   |
 
 ---
 
 ## Epic 5 – Analysis Chain
 
-| #   | Task                                                                 | File/Component         | Key Tests                                               |
-| --- | -------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------- |
-| 5.1 | Design LangChain prompts (Role, Tailor, Diff, ATS, Gaps)             | `chains/prompts.ts`    | TC-C1: Jest snapshot – prompts contain all placeholders |
-| 5.2 | CF `analyze` – retrieve top-k (8) chunks, assemble chain, stream SSE | `functions/analyze.ts` | TC-C2: Integration – returns `fitScore` between 0–100   |
-| 5.3 | Implement BYOK path (forward key header)                             | same                   | TC-C3: Provide fake key → CF receives via header        |
+| #   | Task                                                                                                           | File/Component         | Key Tests                                               |
+| --- | -------------------------------------------------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------- |
+| 5.1 | Design LangChain prompts (Role, Tailor, Diff, ATS, Gaps)                                                       | `chains/prompts.ts`    | TC-C1: Jest snapshot – prompts contain all placeholders |
+| 5.2 | CF `analyze` – retrieve top-k (8) chunks, assemble chain, stream SSE with shared Google AI (user key fallback) | `functions/analyze.ts` | TC-C2: Integration – returns `fitScore` between 0–100   |
+| 5.3 | Implement enhanced BYOK path (shared → user Google → other providers) for resilient API access                 | same                   | TC-C3: Test fallback chain: shared → user → BYOK        |
 
 ---
 
