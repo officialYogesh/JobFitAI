@@ -74,7 +74,7 @@
 | --- | ----------------------------------------- | ---------------------------- | ----------------------------------------------------- |
 | 6.1 | Progress bar and streaming output (SSE)   | `hooks/useAnalysisStream.ts` | TC-F1: Jest – stream chunk updates state sequentially |
 | 6.2 | Diff viewer table (Original vs. Tailored) | `components/DiffTable.tsx`   | TC-F2: Render two texts, highlights changes           |
-| 6.3 | Score card + keyword gap chips            | `components/ScoreCard.tsx`   | TC-F3: Cypress – uploading demo résumé displays score |
+| 6.3 | Score card + keyword gap chips            | `components/ScoreCard.tsx`   | TC-F3: Cypress – uploading demo resume displays score |
 
 ---
 
@@ -116,7 +116,7 @@
 
 ## Acceptance Criteria for MVP
 
-1. Authenticated user can upload JD & résumé, receive fit score & tailored résumé in ≤ 8 s p95.
+1. Authenticated user can upload JD & resume, receive fit score & tailored resume in ≤ 8 s p95.
 2. Data stored under their UID; other users cannot access.
 3. BYOK path functions (manual QA with GPT-4).
 4. GA4 shows page-view + variant event traffic.
