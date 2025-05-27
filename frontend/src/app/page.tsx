@@ -1,7 +1,5 @@
 "use client";
 
-import Image from "next/image";
-
 function Header() {
   const handleLogin = () => {
     console.log("Login clicked");
@@ -246,7 +244,7 @@ function FeaturesSection() {
             </h3>
             <p className="text-gray-600 leading-relaxed">
               Identify missing keywords and phrases that could improve your
-              resume's ATS compatibility.
+              resume&apos;s ATS compatibility.
             </p>
           </div>
 
@@ -505,7 +503,7 @@ export default function Home() {
             Ready to optimize your resume?
           </h2>
           <p className="text-xl mb-8 text-blue-100">
-            Join thousands of job seekers who've improved their resume fit
+            Join thousands of job seekers who&apos;ve improved their resume fit
             scores by 20% or more.
           </p>
           <button
