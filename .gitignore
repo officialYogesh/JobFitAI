@@ -34,3 +34,4 @@ Thumbs.db
 # Misc
 coverage/
 *.local 
+nextjs-15-docs/
