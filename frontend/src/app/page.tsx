@@ -7,6 +7,7 @@ function Header() {
   const router = useRouter();
   // TODO: Replace with actual auth state from Firebase Auth
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogin = () => {
     console.log("Login clicked");
@@ -38,19 +39,23 @@ function Header() {
 
   return (
     <header className="w-full bg-blue-500 text-white relative z-10">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
         {/* Logo */}
         <div
-          className="flex items-center gap-3 cursor-pointer"
+          className="flex items-center gap-2 sm:gap-3 cursor-pointer"
           onClick={() => router.push("/")}
         >
-          <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
-            <span className="text-blue-500 font-bold text-sm">JF</span>
+          <div className="w-7 h-7 sm:w-8 sm:h-8 bg-white rounded flex items-center justify-center">
+            <span className="text-blue-500 font-bold text-xs sm:text-sm">
+              JF
+            </span>
           </div>
-          <span className="text-xl font-semibold text-white">JobFitAI</span>
+          <span className="text-lg sm:text-xl font-semibold text-white">
+            JobFitAI
+          </span>
         </div>
 
-        {/* Navigation */}
+        {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-8">
           <a
             href="#features"
@@ -72,8 +77,8 @@ function Header() {
           </a>
         </nav>
 
-        {/* Auth buttons */}
-        <div className="flex items-center gap-3">
+        {/* Desktop Auth buttons */}
+        <div className="hidden md:flex items-center gap-3">
           {isAuthenticated ? (
             <>
               <button
@@ -106,7 +111,110 @@ function Header() {
             </>
           )}
         </div>
+
+        {/* Mobile menu button */}
+        <button
+          className="md:hidden text-white p-2"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          <svg
+            className="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            {isMobileMenuOpen ? (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            ) : (
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
+              />
+            )}
+          </svg>
+        </button>
       </div>
+
+      {/* Mobile menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden bg-blue-600 border-t border-blue-400">
+          <div className="px-4 py-3 space-y-3">
+            <a
+              href="#features"
+              className="block text-white/90 hover:text-white font-medium transition-colors py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Features
+            </a>
+            <a
+              href="#how-it-works"
+              className="block text-white/90 hover:text-white font-medium transition-colors py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              How It Works
+            </a>
+            <a
+              href="#about"
+              className="block text-white/90 hover:text-white font-medium transition-colors py-2"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              About
+            </a>
+            <div className="pt-3 border-t border-blue-400 space-y-2">
+              {isAuthenticated ? (
+                <>
+                  <button
+                    onClick={() => {
+                      handleDashboard();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="block w-full text-left text-white/90 hover:text-white font-medium py-2 transition-colors cursor-pointer"
+                  >
+                    Dashboard
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleLogout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="block w-full text-left bg-white/10 hover:bg-white/20 text-white font-medium px-4 py-2 rounded transition-colors cursor-pointer"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => {
+                      handleLogin();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="block w-full text-left text-white/90 hover:text-white font-medium py-2 transition-colors cursor-pointer"
+                  >
+                    Log In
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleSignUp();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="block w-full text-left bg-white text-blue-500 hover:bg-gray-50 font-medium px-4 py-2 rounded transition-colors cursor-pointer"
+                  >
+                    Sign Up
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
@@ -154,21 +262,21 @@ function HeroSection() {
   };
 
   return (
-    <section className="bg-white py-20 relative overflow-hidden">
+    <section className="bg-white py-12 sm:py-20 relative overflow-hidden">
       <AnimatedBackground />
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="text-center max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 px-4 py-2 rounded-full text-sm font-medium mb-6">
+          <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-600 px-3 sm:px-4 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium mb-4 sm:mb-6">
             <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
             Privacy-First AI Analysis
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 leading-tight">
             AI-Powered <span className="text-blue-500">Resume</span> & Job Fit
             Analysis
           </h1>
 
-          <p className="text-xl text-gray-600 mb-8 leading-relaxed">
+          <p className="text-base sm:text-xl text-gray-600 mb-6 sm:mb-8 leading-relaxed px-4 sm:px-0">
             A portfolio project demonstrating AI-powered resume analysis.
             Experience instant, evidence-grounded feedback on resume-job fit
             with actionable insights, keyword gap analysis, and rewrite
@@ -178,28 +286,40 @@ function HeroSection() {
             </span>
           </p>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center mb-8 sm:mb-12">
             <button
               onClick={handleGetStarted}
-              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg shadow-lg transition-colors cursor-pointer"
+              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg shadow-lg transition-colors cursor-pointer text-sm sm:text-base"
             >
               Get Started with Google
             </button>
           </div>
 
           {/* Key Stats */}
-          <div className="flex justify-center gap-12 mt-12 pt-8 border-t border-gray-200">
+          <div className="flex flex-col sm:flex-row justify-center gap-6 sm:gap-12 pt-6 sm:pt-8 border-t border-gray-200">
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900">&lt; 8s</div>
-              <div className="text-sm text-gray-600">Analysis Time</div>
+              <div className="text-xl sm:text-2xl font-bold text-gray-900">
+                &lt; 8s
+              </div>
+              <div className="text-xs sm:text-sm text-gray-600">
+                Analysis Time
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900">100%</div>
-              <div className="text-sm text-gray-600">Privacy Protected</div>
+              <div className="text-xl sm:text-2xl font-bold text-gray-900">
+                100%
+              </div>
+              <div className="text-xs sm:text-sm text-gray-600">
+                Privacy Protected
+              </div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-gray-900">Free</div>
-              <div className="text-sm text-gray-600">Google AI Access</div>
+              <div className="text-xl sm:text-2xl font-bold text-gray-900">
+                Free
+              </div>
+              <div className="text-xs sm:text-sm text-gray-600">
+                Google AI Access
+              </div>
             </div>
           </div>
         </div>
@@ -210,22 +330,22 @@ function HeroSection() {
 
 function FeaturesSection() {
   return (
-    <section id="features" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+    <section id="features" className="py-12 sm:py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
             Core Features
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4 sm:px-0">
             Everything you need to optimize your resume for any job application
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="bg-white rounded-xl p-8 shadow-lg">
-            <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          <div className="bg-white rounded-xl p-6 sm:p-8 shadow-lg">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 sm:mb-6">
               <svg
-                className="w-6 h-6 text-blue-600"
+                className="w-5 h-5 sm:w-6 sm:h-6 text-blue-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -238,19 +358,19 @@ function FeaturesSection() {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
               Smart File Parsing
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
               Upload PDF, DOCX, or plain text. Our AI parses and extracts
               content with fallback handling for optimal results.
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-8 shadow-lg">
-            <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-6">
+          <div className="bg-white rounded-xl p-6 sm:p-8 shadow-lg">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 sm:mb-6">
               <svg
-                className="w-6 h-6 text-green-600"
+                className="w-5 h-5 sm:w-6 sm:h-6 text-green-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -263,19 +383,19 @@ function FeaturesSection() {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
               Fit Score Analysis
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
               Get a detailed compatibility score between your resume and job
               description with evidence-based insights.
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-8 shadow-lg">
-            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-6">
+          <div className="bg-white rounded-xl p-6 sm:p-8 shadow-lg">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 sm:mb-6">
               <svg
-                className="w-6 h-6 text-purple-600"
+                className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -294,19 +414,19 @@ function FeaturesSection() {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
               Keyword Gap Analysis
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
               Identify missing keywords and phrases that could improve your
               resume&apos;s ATS compatibility.
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-8 shadow-lg">
-            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-6">
+          <div className="bg-white rounded-xl p-6 sm:p-8 shadow-lg">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4 sm:mb-6">
               <svg
-                className="w-6 h-6 text-orange-600"
+                className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -319,19 +439,19 @@ function FeaturesSection() {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
               AI Rewrite Suggestions
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
               Get LLM-generated rewrite suggestions for better alignment with
               job requirements and improved impact.
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-8 shadow-lg">
-            <div className="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-6">
+          <div className="bg-white rounded-xl p-6 sm:p-8 shadow-lg">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-100 rounded-xl flex items-center justify-center mb-4 sm:mb-6">
               <svg
-                className="w-6 h-6 text-red-600"
+                className="w-5 h-5 sm:w-6 sm:h-6 text-red-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -344,19 +464,19 @@ function FeaturesSection() {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
               Privacy First
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
               Your data is automatically deleted after 30 days. No anonymous
               access, secure authentication required.
             </p>
           </div>
 
-          <div className="bg-white rounded-xl p-8 shadow-lg">
-            <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-6">
+          <div className="bg-white rounded-xl p-6 sm:p-8 shadow-lg">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-indigo-100 rounded-xl flex items-center justify-center mb-4 sm:mb-6">
               <svg
-                className="w-6 h-6 text-indigo-600"
+                className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -369,10 +489,10 @@ function FeaturesSection() {
                 />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
               Free Google AI + BYOK
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
               Start free with shared Google AI access or use your own API key
               for OpenAI, Anthropic, Cohere, or personal Google access.
             </p>
@@ -385,27 +505,27 @@ function FeaturesSection() {
 
 function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="py-20 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+    <section id="how-it-works" className="py-12 sm:py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="text-center mb-12 sm:mb-16">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
             How JobFitAI Works
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-4 sm:px-0">
             Three simple steps to optimize your resume with AI-powered insights
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 relative">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-8 relative">
           {/* Step 1 */}
           <div className="text-center">
-            <div className="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg sm:text-2xl font-bold mx-auto mb-4 sm:mb-6">
               1
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
               Upload & Parse
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
               Sign in with Google and upload your resume and job description.
               Our AI instantly parses both documents.
             </p>
@@ -413,13 +533,13 @@ function HowItWorksSection() {
 
           {/* Step 2 */}
           <div className="text-center">
-            <div className="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg sm:text-2xl font-bold mx-auto mb-4 sm:mb-6">
               2
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
               AI Analysis
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
               RAG-powered AI analyzes compatibility, identifies gaps, and
               generates evidence-based feedback in under 8 seconds.
             </p>
@@ -427,13 +547,13 @@ function HowItWorksSection() {
 
           {/* Step 3 */}
           <div className="text-center">
-            <div className="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+            <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-500 text-white rounded-full flex items-center justify-center text-lg sm:text-2xl font-bold mx-auto mb-4 sm:mb-6">
               3
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-3 sm:mb-4">
               Optimize & Improve
             </h3>
-            <p className="text-gray-600 leading-relaxed">
+            <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
               Get your fit score, keyword gaps, and tailored rewrite
               suggestions. Iterate and improve your resume.
             </p>
@@ -446,57 +566,57 @@ function HowItWorksSection() {
 
 function AboutSection() {
   return (
-    <section id="about" className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+    <section id="about" className="py-12 sm:py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
           <div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 sm:mb-6">
               About JobFitAI
             </h2>
-            <div className="space-y-6">
-              <p className="text-lg text-gray-600 leading-relaxed">
+            <div className="space-y-4 sm:space-y-6">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
                 JobFitAI is a portfolio project demonstrating a privacy-first
                 web tool designed to help job seekers optimize their resumes.
                 Built with cutting-edge AI technology, it showcases instant,
                 evidence-grounded feedback powered by Retrieval-Augmented
                 Generation (RAG).
               </p>
-              <p className="text-lg text-gray-600 leading-relaxed">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
                 This project demonstrates the use of advanced language models to
                 analyze compatibility between resumes and job descriptions,
                 showcasing modern web development skills and AI integration
                 capabilities.
               </p>
-              <div className="grid grid-cols-2 gap-6 mt-8">
-                <div className="bg-white p-4 rounded-lg shadow">
-                  <h4 className="font-semibold text-gray-900 mb-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-6 sm:mt-8">
+                <div className="bg-white p-3 sm:p-4 rounded-lg shadow">
+                  <h4 className="font-semibold text-gray-900 mb-1 sm:mb-2 text-sm sm:text-base">
                     Free Access
                   </h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs sm:text-sm text-gray-600">
                     Shared Google AI with option for personal keys
                   </p>
                 </div>
-                <div className="bg-white p-4 rounded-lg shadow">
-                  <h4 className="font-semibold text-gray-900 mb-2">
+                <div className="bg-white p-3 sm:p-4 rounded-lg shadow">
+                  <h4 className="font-semibold text-gray-900 mb-1 sm:mb-2 text-sm sm:text-base">
                     Multiple Providers
                   </h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs sm:text-sm text-gray-600">
                     Google, OpenAI, Anthropic, Cohere support
                   </p>
                 </div>
-                <div className="bg-white p-4 rounded-lg shadow">
-                  <h4 className="font-semibold text-gray-900 mb-2">
+                <div className="bg-white p-3 sm:p-4 rounded-lg shadow">
+                  <h4 className="font-semibold text-gray-900 mb-1 sm:mb-2 text-sm sm:text-base">
                     Fast Analysis
                   </h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs sm:text-sm text-gray-600">
                     Results in under 8 seconds
                   </p>
                 </div>
-                <div className="bg-white p-4 rounded-lg shadow">
-                  <h4 className="font-semibold text-gray-900 mb-2">
+                <div className="bg-white p-3 sm:p-4 rounded-lg shadow">
+                  <h4 className="font-semibold text-gray-900 mb-1 sm:mb-2 text-sm sm:text-base">
                     BYOK Support
                   </h4>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs sm:text-sm text-gray-600">
                     Bring your own API key for premium models
                   </p>
                 </div>
@@ -504,11 +624,11 @@ function AboutSection() {
             </div>
           </div>
           <div className="relative">
-            <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl p-8 h-96 flex items-center justify-center">
-              <div className="text-center space-y-4">
-                <div className="w-24 h-24 bg-blue-500 rounded-full mx-auto flex items-center justify-center">
+            <div className="bg-gradient-to-br from-blue-100 to-blue-200 rounded-2xl p-6 sm:p-8 h-80 sm:h-96 flex items-center justify-center">
+              <div className="text-center space-y-3 sm:space-y-4">
+                <div className="w-16 h-16 sm:w-24 sm:h-24 bg-blue-500 rounded-full mx-auto flex items-center justify-center">
                   <svg
-                    className="w-12 h-12 text-white"
+                    className="w-8 h-8 sm:w-12 sm:h-12 text-white"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -521,10 +641,10 @@ function AboutSection() {
                     />
                   </svg>
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900">
+                <h3 className="text-lg sm:text-xl font-semibold text-gray-900">
                   Powered by LLMs & RAG
                 </h3>
-                <p className="text-gray-600">
+                <p className="text-sm sm:text-base text-gray-600">
                   Utilizes Retrieval-Augmented Generation and cloud-based AI
                   APIs for advanced resume analysis
                 </p>
@@ -556,18 +676,18 @@ export default function Home() {
       <AboutSection />
 
       {/* CTA Section */}
-      <section className="py-20 bg-blue-500 text-white">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
+      <section className="py-12 sm:py-20 bg-blue-500 text-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 sm:mb-6">
             Ready to try the demo?
           </h2>
-          <p className="text-xl mb-8 text-blue-100">
+          <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-blue-100 px-4 sm:px-0">
             A portfolio project showcasing AI-powered resume analysis
             capabilities and modern web development skills.
           </p>
           <button
             onClick={handleGetStarted}
-            className="bg-white text-blue-500 hover:bg-gray-50 font-semibold px-8 py-4 rounded-lg shadow-lg transition-colors cursor-pointer"
+            className="bg-white text-blue-500 hover:bg-gray-50 font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg shadow-lg transition-colors cursor-pointer text-sm sm:text-base"
           >
             Get Started with Google Sign-In
           </button>
@@ -575,18 +695,20 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <div className="flex items-center justify-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-blue-500 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-sm">JF</span>
+      <footer className="bg-gray-900 text-white py-8 sm:py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+          <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-blue-500 rounded flex items-center justify-center">
+              <span className="text-white font-bold text-xs sm:text-sm">
+                JF
+              </span>
             </div>
-            <span className="text-xl font-semibold">JobFitAI</span>
+            <span className="text-lg sm:text-xl font-semibold">JobFitAI</span>
           </div>
-          <p className="text-gray-400 mb-4">
+          <p className="text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">
             Privacy-first AI-powered resume analysis tool
           </p>
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-500 text-xs sm:text-sm">
             &copy; {new Date().getFullYear()} JobFitAI. All rights reserved.
           </p>
         </div>

@@ -112,49 +112,102 @@ function StepIndicator({ currentStep }: { currentStep: number }) {
   ];
 
   return (
-    <div className="flex items-center justify-center mb-12">
-      {steps.map((step, index) => (
-        <div key={step.number} className="flex items-center">
-          {/* Step Circle */}
-          <div
-            className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold transition-all duration-300 ${
-              currentStep === step.number
-                ? "bg-blue-500 scale-110"
-                : currentStep > step.number
-                ? "bg-green-500"
-                : "bg-gray-300"
-            }`}
-          >
-            {currentStep > step.number ? (
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-              </svg>
-            ) : (
-              step.number
-            )}
-          </div>
-
-          {/* Step Title */}
-          <div className="ml-3 mr-8">
-            <p
-              className={`text-sm font-medium transition-colors ${
-                currentStep >= step.number ? "text-gray-900" : "text-gray-500"
+    <div className="mb-8 sm:mb-12">
+      {/* Mobile vertical layout */}
+      <div className="flex flex-col space-y-3 sm:hidden">
+        {steps.map((step, index) => (
+          <div key={step.number} className="flex items-center">
+            {/* Step Circle */}
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold transition-all duration-300 ${
+                currentStep === step.number
+                  ? "bg-blue-500"
+                  : currentStep > step.number
+                  ? "bg-green-500"
+                  : "bg-gray-300"
               }`}
             >
-              {step.title}
-            </p>
-          </div>
+              {currentStep > step.number ? (
+                <svg
+                  className="w-4 h-4"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+              ) : (
+                <span className="text-sm">{step.number}</span>
+              )}
+            </div>
 
-          {/* Connector Line */}
-          {index < steps.length - 1 && (
+            {/* Step Title */}
+            <div className="ml-3">
+              <p
+                className={`text-sm font-medium transition-colors ${
+                  currentStep >= step.number ? "text-gray-900" : "text-gray-500"
+                }`}
+              >
+                {step.title}
+              </p>
+            </div>
+
+            {/* Vertical Connector Line */}
+            {index < steps.length - 1 && (
+              <div className="absolute left-4 mt-8 w-0.5 h-3 bg-gray-300"></div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Desktop horizontal layout */}
+      <div className="hidden sm:flex items-center justify-center space-x-0">
+        {steps.map((step, index) => (
+          <div key={step.number} className="flex items-center">
+            {/* Step Circle */}
             <div
-              className={`w-16 h-0.5 transition-colors duration-300 ${
-                currentStep > step.number ? "bg-green-500" : "bg-gray-300"
+              className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold transition-all duration-300 ${
+                currentStep === step.number
+                  ? "bg-blue-500 scale-110"
+                  : currentStep > step.number
+                  ? "bg-green-500"
+                  : "bg-gray-300"
               }`}
-            />
-          )}
-        </div>
-      ))}
+            >
+              {currentStep > step.number ? (
+                <svg
+                  className="w-6 h-6"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                </svg>
+              ) : (
+                step.number
+              )}
+            </div>
+
+            {/* Step Title */}
+            <div className="ml-3 mr-8">
+              <p
+                className={`text-sm font-medium transition-colors ${
+                  currentStep >= step.number ? "text-gray-900" : "text-gray-500"
+                }`}
+              >
+                {step.title}
+              </p>
+            </div>
+
+            {/* Horizontal Connector Line */}
+            {index < steps.length - 1 && (
+              <div
+                className={`w-12 lg:w-16 h-0.5 transition-colors duration-300 ${
+                  currentStep > step.number ? "bg-green-500" : "bg-gray-300"
+                }`}
+              />
+            )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -167,11 +220,11 @@ function ModeToggle({
   onModeChange: (mode: UploadMode) => void;
 }) {
   return (
-    <div className="flex items-center justify-center mb-8">
-      <div className="bg-gray-100 p-1 rounded-lg flex">
+    <div className="flex items-center justify-center mb-6 sm:mb-8">
+      <div className="bg-gray-100 p-1 rounded-lg flex w-full max-w-sm">
         <button
           onClick={() => onModeChange("file")}
-          className={`px-6 py-2 rounded-md font-medium transition-all duration-200 cursor-pointer ${
+          className={`flex-1 px-4 sm:px-6 py-2 rounded-md font-medium transition-all duration-200 cursor-pointer text-sm sm:text-base ${
             mode === "file"
               ? "bg-blue-500 text-white shadow-md"
               : "text-gray-600 hover:text-gray-900"
@@ -181,7 +234,7 @@ function ModeToggle({
         </button>
         <button
           onClick={() => onModeChange("text")}
-          className={`px-6 py-2 rounded-md font-medium transition-all duration-200 cursor-pointer ${
+          className={`flex-1 px-4 sm:px-6 py-2 rounded-md font-medium transition-all duration-200 cursor-pointer text-sm sm:text-base ${
             mode === "text"
               ? "bg-blue-500 text-white shadow-md"
               : "text-gray-600 hover:text-gray-900"
@@ -222,7 +275,7 @@ function FileUploadBox({
 
   return (
     <div
-      className={`border-2 border-dashed rounded-xl p-12 text-center transition-all duration-300 ${
+      className={`border-2 border-dashed rounded-xl p-6 sm:p-12 text-center transition-all duration-300 ${
         isDragOver
           ? "border-blue-500 bg-blue-50 scale-105"
           : "border-gray-300 hover:border-blue-400 hover:bg-gray-50"
@@ -231,10 +284,10 @@ function FileUploadBox({
       onDragLeave={onDragLeave}
       onDrop={onDrop}
     >
-      <div className="space-y-4">
-        <div className="w-16 h-16 bg-blue-100 rounded-full mx-auto flex items-center justify-center">
+      <div className="space-y-3 sm:space-y-4">
+        <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-full mx-auto flex items-center justify-center">
           <svg
-            className="w-8 h-8 text-blue-600"
+            className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -249,8 +302,10 @@ function FileUploadBox({
         </div>
 
         <div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
-          <p className="text-gray-600 mb-4">{subtitle}</p>
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
+            {title}
+          </h3>
+          <p className="text-sm sm:text-base text-gray-600 mb-4">{subtitle}</p>
         </div>
 
         <div>
@@ -263,11 +318,13 @@ function FileUploadBox({
           />
           <label
             htmlFor="resume-file-input"
-            className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg cursor-pointer transition-colors inline-block"
+            className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 sm:px-6 py-2 sm:py-3 rounded-lg cursor-pointer transition-colors inline-block text-sm sm:text-base"
           >
             Upload your resume
           </label>
-          <p className="text-sm text-gray-500 mt-2">{acceptedFormats}</p>
+          <p className="text-xs sm:text-sm text-gray-500 mt-2">
+            {acceptedFormats}
+          </p>
         </div>
       </div>
     </div>
@@ -288,11 +345,11 @@ function TextUploadBox({
   onChange: (value: string) => void;
 }) {
   return (
-    <div className="border-2 border-dashed border-gray-300 hover:border-blue-400 rounded-xl p-8 transition-all duration-300">
-      <div className="space-y-4">
-        <div className="w-16 h-16 bg-green-100 rounded-full mx-auto flex items-center justify-center">
+    <div className="border-2 border-dashed border-gray-300 hover:border-blue-400 rounded-xl p-6 sm:p-8 transition-all duration-300">
+      <div className="space-y-3 sm:space-y-4">
+        <div className="w-12 h-12 sm:w-16 sm:h-16 bg-green-100 rounded-full mx-auto flex items-center justify-center">
           <svg
-            className="w-8 h-8 text-green-600"
+            className="w-6 h-6 sm:w-8 sm:h-8 text-green-600"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -307,12 +364,14 @@ function TextUploadBox({
         </div>
 
         <div className="text-center">
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">{title}</h3>
-          <p className="text-gray-600 mb-4">{subtitle}</p>
+          <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
+            {title}
+          </h3>
+          <p className="text-sm sm:text-base text-gray-600 mb-4">{subtitle}</p>
         </div>
 
         <textarea
-          className="w-full h-40 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+          className="w-full h-32 sm:h-40 p-3 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none text-sm sm:text-base"
           placeholder={placeholder}
           value={value}
           onChange={(e) => onChange(e.target.value)}
@@ -414,7 +473,7 @@ function APIKeySection({
 
       {isExpanded && (
         <div className="mt-6 animate-in slide-in-from-top-2 duration-200">
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 gap-4 sm:gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Model Selection
@@ -422,7 +481,7 @@ function APIKeySection({
               <select
                 value={selectedModel}
                 onChange={(e) => onModelChange(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-pointer"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all cursor-pointer text-sm sm:text-base"
               >
                 <optgroup label="Google Models (Free)">
                   {modelOptions
@@ -486,7 +545,7 @@ function APIKeySection({
                 }
                 value={apiKey}
                 onChange={(e) => onApiKeyChange(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-3 sm:px-4 py-2 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-sm sm:text-base"
               />
               <p className="text-xs text-gray-500 mt-1">
                 {isUsingFreeModel
@@ -705,21 +764,25 @@ export default function UploadPage() {
       <div className="min-h-screen bg-gray-50">
         {/* Header */}
         <header className="w-full bg-blue-500 text-white">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 bg-white rounded flex items-center justify-center">
-                <span className="text-blue-500 font-bold text-sm">JF</span>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div className="w-7 h-7 sm:w-8 sm:h-8 bg-white rounded flex items-center justify-center">
+                <span className="text-blue-500 font-bold text-xs sm:text-sm">
+                  JF
+                </span>
               </div>
-              <span className="text-xl font-semibold text-white">JobFitAI</span>
+              <span className="text-lg sm:text-xl font-semibold text-white">
+                JobFitAI
+              </span>
             </div>
-            <button className="text-white/90 hover:text-white font-medium transition-colors cursor-pointer">
+            <button className="text-white/90 hover:text-white font-medium transition-colors cursor-pointer text-sm sm:text-base px-2 sm:px-4 py-1 sm:py-2">
               Logout
             </button>
           </div>
         </header>
 
         {/* Main Content */}
-        <main className="max-w-4xl mx-auto px-6 py-12">
+        <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
           <APIKeySection
             apiKey={apiKey}
             selectedModel={selectedModel}
@@ -729,14 +792,14 @@ export default function UploadPage() {
 
           <StepIndicator currentStep={currentStep} />
 
-          <div className="bg-white rounded-2xl shadow-lg p-8">
+          <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 lg:p-8">
             {currentStep === 1 && (
-              <div className="space-y-8">
+              <div className="space-y-6 sm:space-y-8">
                 <div className="text-center">
-                  <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
                     UPLOAD YOUR RESUME
                   </h1>
-                  <p className="text-gray-600">
+                  <p className="text-sm sm:text-base text-gray-600">
                     Upload your resume to get started with the analysis
                   </p>
                 </div>
@@ -794,7 +857,7 @@ export default function UploadPage() {
                   <button
                     onClick={handleNextStep}
                     disabled={!isStep1Valid}
-                    className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-medium px-6 py-3 rounded-lg transition-all duration-200 cursor-pointer disabled:cursor-not-allowed"
+                    className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-medium px-4 sm:px-6 py-2 sm:py-3 rounded-lg transition-all duration-200 cursor-pointer disabled:cursor-not-allowed text-sm sm:text-base"
                   >
                     Next Step
                   </button>
@@ -803,12 +866,12 @@ export default function UploadPage() {
             )}
 
             {currentStep === 2 && (
-              <div className="space-y-8">
+              <div className="space-y-6 sm:space-y-8">
                 <div className="text-center">
-                  <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
                     ADD JOB DESCRIPTION
                   </h1>
-                  <p className="text-gray-600">
+                  <p className="text-sm sm:text-base text-gray-600">
                     Paste the job description you want to analyze against your
                     resume
                   </p>
@@ -822,17 +885,17 @@ export default function UploadPage() {
                   onChange={setJobDescription}
                 />
 
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-0">
                   <button
                     onClick={handlePrevStep}
-                    className="bg-gray-500 hover:bg-gray-600 text-white font-medium px-6 py-3 rounded-lg transition-colors cursor-pointer"
+                    className="bg-gray-500 hover:bg-gray-600 text-white font-medium px-4 sm:px-6 py-2 sm:py-3 rounded-lg transition-colors cursor-pointer text-sm sm:text-base order-2 sm:order-1"
                   >
                     Previous
                   </button>
                   <button
                     onClick={handleNextStep}
                     disabled={!jobDescription.trim()}
-                    className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white font-medium px-6 py-3 rounded-lg transition-all duration-200 cursor-pointer disabled:cursor-not-allowed"
+                    className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white font-medium px-4 sm:px-6 py-2 sm:py-3 rounded-lg transition-all duration-200 cursor-pointer disabled:cursor-not-allowed text-sm sm:text-base order-1 sm:order-2"
                   >
                     Analyze Resume
                   </button>
@@ -841,20 +904,20 @@ export default function UploadPage() {
             )}
 
             {currentStep === 3 && (
-              <div className="space-y-8">
+              <div className="space-y-6 sm:space-y-8">
                 <div className="text-center">
-                  <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
                     ANALYSIS RESULTS
                   </h1>
-                  <p className="text-gray-600">
+                  <p className="text-sm sm:text-base text-gray-600">
                     Your resume analysis will appear here
                   </p>
                 </div>
 
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-8 text-center">
-                  <div className="w-16 h-16 bg-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center animate-spin">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 sm:p-8 text-center">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center animate-spin">
                     <svg
-                      className="w-8 h-8 text-white"
+                      className="w-6 h-6 sm:w-8 sm:h-8 text-white"
                       fill="none"
                       stroke="currentColor"
                       viewBox="0 0 24 24"
@@ -867,25 +930,25 @@ export default function UploadPage() {
                       />
                     </svg>
                   </div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
                     Analyzing Your Resume...
                   </h3>
-                  <p className="text-gray-600">
+                  <p className="text-sm sm:text-base text-gray-600">
                     Please wait while we analyze your resume against the job
                     description. This usually takes less than 8 seconds.
                   </p>
                 </div>
 
-                <div className="flex justify-between">
+                <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-0">
                   <button
                     onClick={handlePrevStep}
-                    className="bg-gray-500 hover:bg-gray-600 text-white font-medium px-6 py-3 rounded-lg transition-colors cursor-pointer"
+                    className="bg-gray-500 hover:bg-gray-600 text-white font-medium px-4 sm:px-6 py-2 sm:py-3 rounded-lg transition-colors cursor-pointer text-sm sm:text-base order-2 sm:order-1"
                   >
                     Previous
                   </button>
                   <button
                     onClick={() => setCurrentStep(1)}
-                    className="bg-green-500 hover:bg-green-600 text-white font-medium px-6 py-3 rounded-lg transition-colors cursor-pointer"
+                    className="bg-green-500 hover:bg-green-600 text-white font-medium px-4 sm:px-6 py-2 sm:py-3 rounded-lg transition-colors cursor-pointer text-sm sm:text-base order-1 sm:order-2"
                   >
                     Start New Analysis
                   </button>
