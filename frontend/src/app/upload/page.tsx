@@ -114,60 +114,69 @@ function StepIndicator({ currentStep }: { currentStep: number }) {
   return (
     <div className="mb-8 sm:mb-12">
       {/* Mobile vertical layout */}
-      <div className="flex flex-col space-y-3 sm:hidden">
+      <div className="flex flex-col sm:hidden">
         {steps.map((step, index) => (
-          <div key={step.number} className="flex items-center">
-            {/* Step Circle */}
-            <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold transition-all duration-300 ${
-                currentStep === step.number
-                  ? "bg-blue-500"
-                  : currentStep > step.number
-                  ? "bg-green-500"
-                  : "bg-gray-300"
-              }`}
-            >
-              {currentStep > step.number ? (
-                <svg
-                  className="w-4 h-4"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
-                </svg>
-              ) : (
-                <span className="text-sm">{step.number}</span>
-              )}
-            </div>
-
-            {/* Step Title */}
-            <div className="ml-3">
-              <p
-                className={`text-sm font-medium transition-colors ${
-                  currentStep >= step.number ? "text-gray-900" : "text-gray-500"
+          <div key={step.number} className="relative">
+            <div className="flex items-center pb-6 last:pb-0">
+              {/* Step Circle */}
+              <div
+                className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-semibold transition-all duration-300 flex-shrink-0 ${
+                  currentStep === step.number
+                    ? "bg-blue-500 ring-4 ring-blue-100"
+                    : currentStep > step.number
+                    ? "bg-green-500"
+                    : "bg-gray-300"
                 }`}
               >
-                {step.title}
-              </p>
+                {currentStep > step.number ? (
+                  <svg
+                    className="w-5 h-5"
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+                  </svg>
+                ) : (
+                  <span className="text-sm font-bold">{step.number}</span>
+                )}
+              </div>
+
+              {/* Step Title */}
+              <div className="ml-4 flex-1">
+                <p
+                  className={`text-base font-semibold transition-colors ${
+                    currentStep >= step.number
+                      ? "text-gray-900"
+                      : "text-gray-500"
+                  }`}
+                >
+                  {step.title}
+                </p>
+                <p className="text-sm text-gray-500 mt-1">
+                  {step.number === 1 && "Upload your resume document"}
+                  {step.number === 2 && "Add the job description"}
+                  {step.number === 3 && "View analysis results"}
+                </p>
+              </div>
             </div>
 
             {/* Vertical Connector Line */}
             {index < steps.length - 1 && (
-              <div className="absolute left-4 mt-8 w-0.5 h-3 bg-gray-300"></div>
+              <div className="absolute left-5 top-10 w-0.5 h-6 bg-gray-300 transform -translate-x-0.5"></div>
             )}
           </div>
         ))}
       </div>
 
       {/* Desktop horizontal layout */}
-      <div className="hidden sm:flex items-center justify-center space-x-0">
+      <div className="hidden sm:flex items-center justify-center">
         {steps.map((step, index) => (
           <div key={step.number} className="flex items-center">
             {/* Step Circle */}
             <div
               className={`w-12 h-12 rounded-full flex items-center justify-center text-white font-semibold transition-all duration-300 ${
                 currentStep === step.number
-                  ? "bg-blue-500 scale-110"
+                  ? "bg-blue-500 scale-110 ring-4 ring-blue-100"
                   : currentStep > step.number
                   ? "bg-green-500"
                   : "bg-gray-300"
@@ -187,7 +196,7 @@ function StepIndicator({ currentStep }: { currentStep: number }) {
             </div>
 
             {/* Step Title */}
-            <div className="ml-3 mr-8">
+            <div className="ml-3">
               <p
                 className={`text-sm font-medium transition-colors ${
                   currentStep >= step.number ? "text-gray-900" : "text-gray-500"
@@ -199,11 +208,7 @@ function StepIndicator({ currentStep }: { currentStep: number }) {
 
             {/* Horizontal Connector Line */}
             {index < steps.length - 1 && (
-              <div
-                className={`w-12 lg:w-16 h-0.5 transition-colors duration-300 ${
-                  currentStep > step.number ? "bg-green-500" : "bg-gray-300"
-                }`}
-              />
+              <div className="w-16 h-0.5 bg-gray-300 mx-4"></div>
             )}
           </div>
         ))}
@@ -473,7 +478,7 @@ function APIKeySection({
 
       {isExpanded && (
         <div className="mt-6 animate-in slide-in-from-top-2 duration-200">
-          <div className="grid grid-cols-1 gap-4 sm:gap-6">
+          <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Model Selection
@@ -933,10 +938,29 @@ export default function UploadPage() {
                   <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
                     Analyzing Your Resume...
                   </h3>
-                  <p className="text-sm sm:text-base text-gray-600">
+                  <p className="text-sm sm:text-base text-gray-600 mb-4">
                     Please wait while we analyze your resume against the job
                     description. This usually takes less than 8 seconds.
                   </p>
+
+                  <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
+                    <div
+                      className="bg-blue-500 h-2 rounded-full transition-all duration-1000 animate-pulse"
+                      style={{ width: "75%" }}
+                    ></div>
+                  </div>
+
+                  <p className="text-xs text-gray-500">
+                    🤖 Running AI analysis • 📊 Calculating fit score • 🔍
+                    Finding keyword gaps
+                  </p>
+
+                  <button
+                    onClick={() => (window.location.href = "/results")}
+                    className="mt-6 bg-green-500 hover:bg-green-600 text-white font-medium px-6 py-3 rounded-lg transition-colors cursor-pointer"
+                  >
+                    View Results Now (Demo)
+                  </button>
                 </div>
 
                 <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-0">

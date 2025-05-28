@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# JobFitAI - AI-Powered Resume & Job Fit Analysis
+# https://jobfitai.com
+Sitemap: /sitemap.xml 

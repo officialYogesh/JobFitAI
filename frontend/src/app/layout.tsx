@@ -18,6 +18,8 @@ export const metadata: Metadata = {
     "Get instant, evidence-grounded feedback on how well your resume matches any job description. Privacy-first AI analysis powered by RAG technology.",
   icons: {
     icon: "/favicon.svg",
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
   },
 };
 
