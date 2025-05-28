@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import AuthGuard from "../components/AuthGuard";
+import { useAuth } from "@/hooks/useAuth";
 
 // Hardcoded test data
 const mockAnalysisResult = {
@@ -575,6 +576,12 @@ function DiffViewer({
 
 export default function ResultsPage() {
   const [activeTab, setActiveTab] = useState("overview");
+  const { signOut } = useAuth();
+
+  const handleLogout = async () => {
+    await signOut();
+    window.location.href = "/";
+  };
 
   const tabs = [
     { id: "overview", name: "Overview", icon: "📊" },
@@ -609,7 +616,7 @@ export default function ResultsPage() {
                 New Analysis
               </button>
               <button
-                onClick={() => console.log("Logout clicked")}
+                onClick={handleLogout}
                 className="text-white/90 hover:text-white font-medium transition-colors text-sm sm:text-base cursor-pointer"
               >
                 Logout
@@ -661,7 +668,7 @@ export default function ResultsPage() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-2 px-6 py-4 border-b-2 font-medium text-sm whitespace-nowrap transition-colors ${
+                    className={`flex items-center gap-2 px-6 py-4 border-b-2 font-medium text-sm whitespace-nowrap transition-colors cursor-pointer ${
                       activeTab === tab.id
                         ? "border-blue-500 text-blue-600"
                         : "border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300"

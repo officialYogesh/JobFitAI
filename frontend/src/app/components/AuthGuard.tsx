@@ -1,14 +1,33 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/hooks/useAuth";
 
 interface AuthGuardProps {
   children: ReactNode;
 }
 
 export default function AuthGuard({ children }: AuthGuardProps) {
-  // TODO: Replace with actual authentication logic
-  const isAuthenticated = true; // Placeholder - always true for now
+  const { isAuthenticated, loading, user: _user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      router.push("/login");
+    }
+  }, [loading, isAuthenticated, router]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isAuthenticated) {
     return (
@@ -36,7 +55,7 @@ export default function AuthGuard({ children }: AuthGuardProps) {
             Please sign in with your Google account to access this page.
           </p>
           <button
-            onClick={() => console.log("Redirect to login")}
+            onClick={() => router.push("/login")}
             className="bg-blue-500 hover:bg-blue-600 text-white font-medium px-6 py-3 rounded-lg transition-colors cursor-pointer"
           >
             Sign In with Google

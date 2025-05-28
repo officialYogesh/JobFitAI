@@ -2,40 +2,51 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 function Header() {
   const router = useRouter();
-  // TODO: Replace with actual auth state from Firebase Auth
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, user: _user, loading, signOut } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleLogin = () => {
-    console.log("Login clicked");
-    // TODO: Implement Google login
-    // For now, simulate login and redirect to upload page
-    setIsAuthenticated(true);
-    router.push("/upload");
+    router.push("/login");
   };
 
   const handleSignUp = () => {
-    console.log("Sign up clicked");
-    // TODO: Implement Google sign up
-    // For now, simulate signup and redirect to upload page
-    setIsAuthenticated(true);
-    router.push("/upload");
+    router.push("/login");
   };
 
-  const handleLogout = () => {
-    console.log("Logout clicked");
-    // TODO: Implement Google logout
-    setIsAuthenticated(false);
+  const handleLogout = async () => {
+    await signOut();
     // Optionally redirect to home or show logout confirmation
   };
 
   const handleDashboard = () => {
-    console.log("Dashboard clicked");
     router.push("/upload");
   };
+
+  if (loading) {
+    return (
+      <header className="w-full bg-blue-500 text-white relative z-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 bg-white rounded flex items-center justify-center">
+              <span className="text-blue-500 font-bold text-xs sm:text-sm">
+                JF
+              </span>
+            </div>
+            <span className="text-lg sm:text-xl font-semibold text-white">
+              JobFitAI
+            </span>
+          </div>
+          <div className="animate-pulse">
+            <div className="h-8 w-20 bg-white/20 rounded"></div>
+          </div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <header className="w-full bg-blue-500 text-white relative z-10">
@@ -253,12 +264,14 @@ function AnimatedBackground() {
 
 function HeroSection() {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
 
   const handleGetStarted = () => {
-    console.log("Get started clicked");
-    // TODO: Implement Google sign up
-    // For now, redirect to upload page
-    router.push("/upload");
+    if (isAuthenticated) {
+      router.push("/upload");
+    } else {
+      router.push("/login");
+    }
   };
 
   return (
@@ -659,12 +672,14 @@ function AboutSection() {
 
 export default function Home() {
   const router = useRouter();
+  const { isAuthenticated } = useAuth();
 
   const handleGetStarted = () => {
-    console.log("CTA Get started clicked");
-    // TODO: Implement Google sign up
-    // For now, redirect to upload page
-    router.push("/upload");
+    if (isAuthenticated) {
+      router.push("/upload");
+    } else {
+      router.push("/login");
+    }
   };
 
   return (

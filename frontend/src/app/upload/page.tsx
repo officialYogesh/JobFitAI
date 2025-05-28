@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import AuthGuard from "../components/AuthGuard";
+import { useAuth } from "@/hooks/useAuth";
 
 type UploadMode = "file" | "text";
 
@@ -107,8 +109,7 @@ const modelOptions: ModelOption[] = [
 function StepIndicator({ currentStep }: { currentStep: number }) {
   const steps = [
     { number: 1, title: "Upload Resume" },
-    { number: 2, title: "Add Job" },
-    { number: 3, title: "View Results" },
+    { number: 2, title: "Add Job & Analyze" },
   ];
 
   return (
@@ -154,8 +155,8 @@ function StepIndicator({ currentStep }: { currentStep: number }) {
                 </p>
                 <p className="text-sm text-gray-500 mt-1">
                   {step.number === 1 && "Upload your resume document"}
-                  {step.number === 2 && "Add the job description"}
-                  {step.number === 3 && "View analysis results"}
+                  {step.number === 2 &&
+                    "Add job description and start analysis"}
                 </p>
               </div>
             </div>
@@ -716,6 +717,13 @@ export default function UploadPage() {
   const [isDragOver, setIsDragOver] = useState(false);
   const [apiKey, setApiKey] = useState("");
   const [selectedModel, setSelectedModel] = useState("gemini-2.0-flash"); // Default to free Google model
+  const router = useRouter();
+  const { signOut } = useAuth();
+
+  const handleLogout = async () => {
+    await signOut();
+    router.push("/");
+  };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -750,8 +758,17 @@ export default function UploadPage() {
   };
 
   const handleNextStep = () => {
-    if (currentStep < 3) {
-      setCurrentStep(currentStep + 1);
+    if (currentStep === 1) {
+      setCurrentStep(2);
+    } else if (currentStep === 2) {
+      // Start analysis - redirect to analysis page
+      console.log("Starting analysis with:", {
+        resume: uploadMode === "file" ? resumeFile?.name : "text input",
+        jobDescription: jobDescription.length + " characters",
+        model: selectedModel,
+        hasApiKey: !!apiKey,
+      });
+      router.push("/analysis");
     }
   };
 
@@ -780,7 +797,10 @@ export default function UploadPage() {
                 JobFitAI
               </span>
             </div>
-            <button className="text-white/90 hover:text-white font-medium transition-colors cursor-pointer text-sm sm:text-base px-2 sm:px-4 py-1 sm:py-2">
+            <button
+              onClick={handleLogout}
+              className="text-white/90 hover:text-white font-medium transition-colors cursor-pointer text-sm sm:text-base px-2 sm:px-4 py-1 sm:py-2"
+            >
               Logout
             </button>
           </div>
@@ -907,80 +927,31 @@ export default function UploadPage() {
                 </div>
               </div>
             )}
-
-            {currentStep === 3 && (
-              <div className="space-y-6 sm:space-y-8">
-                <div className="text-center">
-                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2">
-                    ANALYSIS RESULTS
-                  </h1>
-                  <p className="text-sm sm:text-base text-gray-600">
-                    Your resume analysis will appear here
-                  </p>
-                </div>
-
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 sm:p-8 text-center">
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 bg-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center animate-spin">
-                    <svg
-                      className="w-6 h-6 sm:w-8 sm:h-8 text-white"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                      />
-                    </svg>
-                  </div>
-                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
-                    Analyzing Your Resume...
-                  </h3>
-                  <p className="text-sm sm:text-base text-gray-600 mb-4">
-                    Please wait while we analyze your resume against the job
-                    description. This usually takes less than 8 seconds.
-                  </p>
-
-                  <div className="w-full bg-gray-200 rounded-full h-2 mb-4">
-                    <div
-                      className="bg-blue-500 h-2 rounded-full transition-all duration-1000 animate-pulse"
-                      style={{ width: "75%" }}
-                    ></div>
-                  </div>
-
-                  <p className="text-xs text-gray-500">
-                    🤖 Running AI analysis • 📊 Calculating fit score • 🔍
-                    Finding keyword gaps
-                  </p>
-
-                  <button
-                    onClick={() => (window.location.href = "/results")}
-                    className="mt-6 bg-green-500 hover:bg-green-600 text-white font-medium px-6 py-3 rounded-lg transition-colors cursor-pointer"
-                  >
-                    View Results Now (Demo)
-                  </button>
-                </div>
-
-                <div className="flex flex-col sm:flex-row justify-between gap-3 sm:gap-0">
-                  <button
-                    onClick={handlePrevStep}
-                    className="bg-gray-500 hover:bg-gray-600 text-white font-medium px-4 sm:px-6 py-2 sm:py-3 rounded-lg transition-colors cursor-pointer text-sm sm:text-base order-2 sm:order-1"
-                  >
-                    Previous
-                  </button>
-                  <button
-                    onClick={() => setCurrentStep(1)}
-                    className="bg-green-500 hover:bg-green-600 text-white font-medium px-4 sm:px-6 py-2 sm:py-3 rounded-lg transition-colors cursor-pointer text-sm sm:text-base order-1 sm:order-2"
-                  >
-                    Start New Analysis
-                  </button>
-                </div>
-              </div>
-            )}
           </div>
         </main>
+
+        {/* Demo Testing Section */}
+        <footer className="bg-white border-t border-gray-200 p-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <p className="text-sm text-gray-600 mb-4">
+              🧪 Demo Testing: Quick access to test the analysis flow
+            </p>
+            <div className="flex justify-center gap-3">
+              <button
+                onClick={() => router.push("/analysis")}
+                className="bg-purple-500 hover:bg-purple-600 text-white font-medium px-4 py-2 rounded-lg transition-colors cursor-pointer text-sm"
+              >
+                🔬 Test Analysis Progress
+              </button>
+              <button
+                onClick={() => router.push("/results")}
+                className="bg-green-500 hover:bg-green-600 text-white font-medium px-4 py-2 rounded-lg transition-colors cursor-pointer text-sm"
+              >
+                📊 View Sample Results
+              </button>
+            </div>
+          </div>
+        </footer>
       </div>
     </AuthGuard>
   );
