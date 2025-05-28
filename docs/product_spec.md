@@ -1,6 +1,6 @@
 # JobFit AI – Product Specification
 
-> **Version:** 1.0.1 (May 27 2025)  
+> **Version:** 1.0.2 (May 28 2025)  
 > **Author:** Yogesh Patil  
 > **License:** MIT (code) / CC-BY-4.0 (prompts & docs)
 
@@ -36,32 +36,34 @@ JobFit AI is a **privacy-first web tool** that enables registered users to:
 ### 4.1 Upload & Parsing
 
 - Accept PDF, DOCX, or raw text.
-- Parse with `pdfplumber` / `docx2txt`; fallback to plain text.
+- Parse with server-side libraries in Next.js API routes; fallback to plain text.
 - Detect parsing errors and surface human‑readable fixes.
 
 ### 4.2 RAG‑Powered Analysis
 
 - Embed JD & resume chunks via Google embedding models (shared access) or `text‑embedding‑3‑small` (OpenAI BYOK).
-- Store vectors in Supabase `pgvector` (free tier) with metadata in Firestore.
-- Retrieval: semantic + keyword hybrid (LangChain `HypotheticalDocRetriever`).
+- Store vectors in Supabase `pgvector` (free tier) with metadata handled by Next.js backend.
+- Retrieval: semantic + keyword hybrid using custom retrieval logic.
 - **Default Shared Access:** Google Gemini 2.0 Flash with shared API access for immediate use.
 - **Enhanced Access:** Users can provide their own API keys for Google (personal limits), OpenAI, Anthropic, or Cohere models.
 - **Rate Limit Fallback:** When shared limits are reached, users can add their own Google API key for continued access.
-- Prompt chain executes **Role Prompt → Tailor Prompt → Diff Prompt → ATS Prompt → Gap Prompt**.
+- Prompt chain executes **Role Prompt → Tailor Prompt → Diff Prompt → ATS Prompt → Gap Prompt** via Next.js API routes.
 
 ### 4.3 Authentication
 
 - **Mandatory Google Sign‑In** via Firebase Auth.
-- ID token required for every Cloud Function call.
+- Firebase ID token verified in Next.js API routes for secure backend access.
 
 ### 4.4 Persistence & Privacy
 
-- Session data stored under `users/{uid}` with 30‑day TTL.
+- Session data stored in database with 30‑day TTL.
 - Resumes/JDs removed on user request or TTL expiry.
+- All backend processing handled by Next.js API routes.
 
 ### 4.5 Error & Fallback Handling
 
 - Embed fallback to Cohere, retries on timeouts, plain‑text fallback on parse failures.
+- All error handling implemented in Next.js middleware and API routes.
 
 ---
 
@@ -69,32 +71,32 @@ JobFit AI is a **privacy-first web tool** that enables registered users to:
 
 - **Cost ceiling:** shared Google AI by default; user API keys for enhanced access at their own cost.
 - **Latency:** p95 < 8 s on Gemini models (shared or personal access).
-- **Security:** No anonymous access; HTTPS; Firebase rules enforce per‑user data isolation.
+- **Security:** No anonymous access; HTTPS; Firebase Auth for authentication only, Next.js backend for all processing.
 
 ---
 
 ## 6 System Architecture (Excerpt)
 
-Frontend **Vercel (Next.js)** → Firebase Auth (Google) → Cloud Functions (Node 20 us‑east1) → Supabase pgvector & Firestore.
+Frontend **Vercel (Next.js)** → Firebase Auth (Google only) → Next.js API Routes → Supabase pgvector & database.
 
 ---
 
 ## 7 MVP Scope (Weeks 1–5)
 
-1. Google sign‑in flow
-2. Upload & parsing
-3. Fit score + rewritten summary + diff table
-4. RAG grounding (shared Google AI + BYOK fallback)
+1. Google sign‑in flow (Firebase Auth)
+2. Upload & parsing (Next.js API routes)
+3. Fit score + rewritten summary + diff table (Next.js backend)
+4. RAG grounding (shared Google AI + BYOK fallback via Next.js)
 5. GA4 basic events
 
 ---
 
 ## 8 About (Updated)
 
-JobFitAI is powered by large language models (LLMs), Retrieval-Augmented Generation (RAG), and cloud-based AI APIs. We do not use custom machine learning algorithms. Our platform provides instant, evidence-based feedback and actionable insights to help job seekers optimize their resumes for any job application, with a strong focus on privacy and user control.
+JobFitAI is powered by large language models (LLMs), Retrieval-Augmented Generation (RAG), and cloud-based AI APIs. We do not use custom machine learning algorithms. Our platform provides instant, evidence-based feedback and actionable insights to help job seekers optimize their resumes for any job application, with a strong focus on privacy and user control. The entire backend is built with Next.js API routes for cost-effective and scalable processing.
 
 ---
 
 ## 9 Roadmap
 
-- **June:** MVP launch
+- **June:** MVP launch with Next.js full-stack architecture
