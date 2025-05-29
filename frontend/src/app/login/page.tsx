@@ -103,7 +103,7 @@ export default function LoginPage() {
             <button
               onClick={handleGoogleSignIn}
               disabled={loading}
-              className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
                 <path
@@ -142,7 +142,7 @@ export default function LoginPage() {
 
                 <button
                   onClick={() => router.push("/upload")}
-                  className="w-full flex items-center justify-center px-4 py-3 border border-blue-300 rounded-lg shadow-sm bg-blue-50 text-blue-700 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                  className="w-full flex items-center justify-center px-4 py-3 border border-blue-300 rounded-lg shadow-sm bg-blue-50 text-blue-700 hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors cursor-pointer"
                 >
                   <svg
                     className="w-5 h-5 mr-3"
@@ -171,7 +171,7 @@ export default function LoginPage() {
                 Don&apos;t have an account?{" "}
                 <button
                   onClick={handleGoogleSignIn}
-                  className="font-medium text-blue-600 hover:text-blue-500"
+                  className="font-medium text-blue-600 hover:text-blue-500 cursor-pointer"
                 >
                   Sign up with Google
                 </button>

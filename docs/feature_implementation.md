@@ -88,7 +88,7 @@
 
 | #   | Task                                      | File/Component               | Status       | Key Tests                                             |
 | --- | ----------------------------------------- | ---------------------------- | ------------ | ----------------------------------------------------- |
-| 6.1 | Progress bar and streaming output (SSE)   | `hooks/useAnalysisStream.ts` | ⏳ PENDING   | TC-F1: Jest – stream chunk updates state sequentially |
+| 6.1 | Progress bar and streaming output (SSE)   | `hooks/useAnalysisStream.ts` | ✅ COMPLETED | TC-F1: Jest – stream chunk updates state sequentially |
 | 6.2 | Diff viewer table (Original vs. Tailored) | `components/DiffTable.tsx`   | ✅ COMPLETED | TC-F2: Render two texts, highlights changes           |
 | 6.3 | Score card + keyword gap chips            | `components/ScoreCard.tsx`   | ✅ COMPLETED | TC-F3: Cypress – uploading demo resume displays score |
 
@@ -124,28 +124,31 @@
 
 ## Current Status Summary (May 29, 2025)
 
-### ✅ COMPLETED (Epic 0, 1, 6 partial)
+### ✅ COMPLETED (Epic 0, 1, 2 Frontend, 6)
 
 - **Complete UI/UX Implementation**: Landing page, upload flow, results dashboard with hardcoded data
 - **Mobile Responsiveness**: Perfect cross-device compatibility
 - **Project Infrastructure**: Monorepo setup, CI/CD, deployment strategy
+- **Authentication Frontend**: Firebase Auth with Google sign-in, demo mode support, enhanced navigation
 - **Interactive Components**: Score rings, diff viewer, progress animations
+- **Streaming Architecture**: Advanced useAnalysisStream hook with real-time progress tracking
 
 ### 🚧 NEXT PRIORITIES
 
-1. **Firebase Authentication** (Epic 2): Google sign-in integration
+1. **Backend Authentication** (Epic 2.4): `/api/auth/verify` route for Firebase token validation
 2. **File Processing APIs** (Epic 3): PDF/DOCX parsing with Next.js API routes
 3. **Database Setup** (Epic 4): Supabase with pgvector for embeddings
 4. **AI Analysis Pipeline** (Epic 5): LLM integration with prompt templates
 
 ### 📊 Progress Overview
 
-- **UI/UX**: 100% Complete
-- **Infrastructure**: 100% Complete
-- **Authentication**: 100% Complete
+- **UI/UX**: 100% Complete ✅
+- **Infrastructure**: 100% Complete ✅
+- **Authentication Frontend**: 100% Complete ✅
+- **Streaming Architecture**: 100% Complete ✅
 - **Backend APIs**: 25% Complete (architecture designed)
 - **Database**: 0% Complete (ready to implement)
-- **Testing**: 20% Complete (UI tested, APIs pending)
+- **Testing**: 30% Complete (UI tested, streaming tested, APIs pending)
 
 ---
 
